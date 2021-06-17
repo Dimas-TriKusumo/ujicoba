@@ -3,57 +3,21 @@
 require('koneksi.php');
 //inisialisasi session
 session_start();
- 
-$error = '';
-$validate = '';
-//mengecek apakah form registrasi di submit atau tidak
-if( isset($_POST['submit']) ){
-        // menghilangkan backshlases
-        $username = stripslashes($_POST['username']);
-        //cara sederhana mengamankan dari sql injection
-        $username = mysqli_real_escape_string($con, $username);
-        $password = stripslashes($_POST['password']);
-        $password = mysqli_real_escape_string($con, $password);
-        $repass   = stripslashes($_POST['repassword']);
-        $repass   = mysqli_real_escape_string($con, $repass);
-        //cek apakah nilai yang diinputkan pada form ada yang kosong atau tidak
-        if(!empty(trim($username)) && !empty(trim($password)) && !empty(trim($repass))){
-            //mengecek apakah password yang diinputkan sama dengan re-password yang diinputkan kembali
-            if($password == $repass){
-                //memanggil method cek_nama untuk mengecek apakah user sudah terdaftar atau belum
-                if( cek_nama($name,$con) == 0 ){
-                    //hashing password sebelum disimpan didatabase
-                    $pass  = password_hash($password, PASSWORD_DEFAULT);
-                    //insert data ke database
-                    $query = "INSERT INTO pengguna (username, password ) VALUES ('$username','$pass')";
-                    $result   = mysqli_query($con, $query);
-                    //jika insert data berhasil maka akan diredirect ke halaman index.php serta menyimpan data username ke session
-                    if ($result) {
-                        $_SESSION['username'] = $username;
-                        
-                        header('Location: index.php');
-                     
-                    //jika gagal maka akan menampilkan pesan error
-                    } else {
-                        $error =  'Register User Gagal !!';
-                    }
-                }else{
-                        $error =  'Username sudah terdaftar !!';
-                }
-            }else{
-                $validate = 'Password tidak sama !!';
-            }
-             
-        }else {
-            $error =  'Data tidak boleh kosong !!';
-        }
-    } 
-    //fungsi untuk mengecek username apakah sudah terdaftar atau belum
-    function cek_nama($username,$con){
-        $nama = mysqli_real_escape_string($con, $username);
-        $query = "SELECT * FROM pengguna WHERE username = '$nama'";
-        if( $result = mysqli_query($con, $query) ) return mysqli_num_rows($result);
-    }
+
+// menyertakan file login-action.php untuk memproses login
+require 'login-action.php';
+
+// melakukan pengecekan apakah data berhasil disimpan atau tidak
+if (isset($_POST["submit"])) {
+	if (register($_POST)>0){
+		echo "<script>
+			alert('Data berhasil disimpan, Silahkan Login');
+			document.location.href='login.php';
+			</script>";
+	} else {
+		echo mysqli_error($con);
+	}
+}
 ?>
 
 <!doctype html>
@@ -74,24 +38,18 @@ if( isset($_POST['submit']) ){
         <h4 class="text-center">Form Register</h2>
         <hr>
 
-        <form action="register.php" method="POST">
+        <form action="" method="POST">
         <div class="form-group">
           <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username">
+            <input type="text" class="form-control" id="nama_pengguna" name="nama_pengguna" placeholder="Masukkan username" required>
         </div>
         <div class="form-group">
           <label for="InputPassword">Password</label>
-            <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
-              <?php if($validate != '') {?>
-                <p class="text-danger"><?= $validate; ?></p>
-              <?php }?>
+            <input type="password" class="form-control" id="kata_sandi" name="kata_sandi" placeholder="Password" required>
         </div>
         <div class="form-group">
           <label for="InputPassword">Re-Password</label>
-            <input type="password" class="form-control" id="InputRePassword" name="repassword" placeholder="Re-Password">
-                <?php if($validate != '') {?>
-                  <p class="text-danger"><?= $validate; ?></p>
-                <?php }?>
+            <input type="password" class="form-control" id="rekata_sandi" name="rekata_sandi" placeholder="Re-Password" required>
         </div>
         <div class="form-footer mt-2">
           <p> Sudah punya account? <a href="login.php">Login</a></p>

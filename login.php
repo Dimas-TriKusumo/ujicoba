@@ -1,37 +1,19 @@
 <?php
+
+// menjalankan session
 session_start();
 
-require 'koneksi.php';
-   if(isset($_POST["login"])){
-	   ceklogin($_POST);
-   }
+// melakukan pengecekan pada login
+require 'login-action.php';
+if (isset($_POST["login"])){
+		ceklogin($_POST);
+}
 
-   function ceklogin($datalogin){
-	   global $conn;
-	   $username = $datalogin["username"];
-	   $password = $datalogin["password"];
-
-	   $cekuser = mysqli_query($conn, "SELECT * FROM pengguna WHERE username = '$username'");
-
-	   if(mysqli_num_rows($cekuser) === 1){
-
-		   $hasil = mysqli_fetch_assoc($cekuser);
-
-		   if(password_verify($password,$hasil["password"])){
-			   $_SESSION["user"] = $username;
-			   $_SESSION["login"] = true;
-
-			   if(isset($datalogin["rememberme"])){
-				   setcookie("login","tetap_ingat", time()+30);
-			   } else {
-				   echo "cookie belum dibuat";
-			   }
-			   echo "<script>alert('Anda Berhasil Login!'); document.location.href='index.php';</script>";
-		   }
-	   } else {
-		   print "<p style=\"color:red; font-style: italic;\"> Username atau Password Salah!</p>";
-	   }
-   }
+// melakuakn pengecekan session
+if (isset($_SESSION["login"])) {
+  echo "<script>document.location.href='index.php';</script>";
+  exit;
+}
 
 ?>
 
@@ -53,15 +35,15 @@ require 'koneksi.php';
         <h4 class="text-center">Form Login</h2>
         <hr>
 
-        <form action="login.php" method="POST">
+        <form action="" method="POST">
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" id="username" name="username" class="form-control" placeholder="Masukan Username Anda">
+                <input type="text" id="nama_pengguna" name="nama_pengguna" class="form-control" placeholder="Masukan Username Anda" required>
             </div>
 
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="InputPassword" name="password" class="form-control" placeholder="Masukan Password Anda">
+                <input type="password" id="kata_sandi" name="kata_sandi" class="form-control" placeholder="Masukan Password Anda" required>
             </div>
 
             <div class="form-footer mt-2">
