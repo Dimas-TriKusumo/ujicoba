@@ -1,0 +1,30 @@
+[
+    {
+        "names": "Dana",
+        "nominalnya": "100000",
+        "tanggalHutang": "2021-06-17",
+        "alamatadd": "Bandung, Jawa barat",
+        "statusnyaapa": "Belum Lunas"
+    },
+    {
+        "names": "Dana",
+        "nominalnya": "100000",
+        "tanggalHutang": "2021-06-18",
+        "alamatadd": "Bandung, Jawa barat",
+        "statusnyaapa": "Lunas"
+    },
+    {
+        "names": "adas",
+        "nominalnya": "12000",
+        "tanggalHutang": "2021-06-10",
+        "alamatadd": "Bandung, Jawa barat",
+        "statusnyaapa": "Belum Lunas"
+    },
+    {
+        "names": "Aqua",
+        "nominalnya": "1000000",
+        "tanggalHutang": "2021-06-20",
+        "alamatadd": "Bandung, Jawa barat",
+        "statusnyaapa": "Lunas"
+    }
+]

@@ -19,7 +19,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <form class="d-flex">
-      <a class="nav-link" href="updateHutang.php" style="color: white;">Kembali</a>
+      <a class="nav-link" href="index.php" style="color: white;">Kembali</a>
     </form>
         </div>
     </nav>
@@ -55,10 +55,10 @@
 
               <div class="form-group">
                 <label">Status</label>
-                <input type="text" name="status" class="form-control" required>
+                <input type="text" name="statusnya" class="form-control" required>
               </div>
 
-              <button type="submit" name="submit" class="btn btn-primary mt-3">Simpan</button>
+              <button type="submit" name="tambah" class="btn btn-primary mt-3">Simpan</button>
 
             </div>
         </div>
