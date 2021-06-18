@@ -1,3 +1,27 @@
+
+<?php
+
+include("koneksi.php");
+
+if(!isset($_GET['id'])){
+    header('Location: index.php');
+}
+
+//ambil id dari query
+$id = mysqli_real_escape_string($con,$_GET['id']);
+
+//buat query
+$sql = "SELECT * FROM hutang WHERE id=$id";
+$query = mysqli_query($con, $sql);
+$editdata = mysqli_fetch_assoc($query);
+
+// cek jika edit tidak ditemukan
+if(mysqli_num_rows($query) < 1){
+    die("Data tidak ditemukan");
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -30,32 +54,32 @@
         <form action="updateHutang.php" method="POST">
         <div class="form-group">
               <div class="form-group">
-                  <input type="hidden" name="id" class="form-control" required>
+                  <input type="hidden" name="id" class="form-control" value="<?php echo $editdata['id'] ?>" required>
               </div>
 
               <div class="form-group">
                 <label">Nama</label>
-                <input type="text" class="form-control" name="nama" required>
+                <input type="text" class="form-control" name="nama" value="<?php echo $editdata['nama'] ?>" required>
               </div>
 
               <div class="form-group">
                 <label">Nominal</label>
-                <input type="number" name="nominal" class="form-control" required>
+                <input type="number" name="nominal" class="form-control" value="<?php echo $editdata['nominal'] ?>" required>
               </div>
 
               <div class="form-group">
                 <label">Tanggal Hutang</label>
-                <input type="date" name="tanggalHutang" class="form-control" required>
+                <input type="date" name="tanggalHutang" class="form-control" value="<?php echo $editdata['tanggalHutang'] ?>" required>
               </div>
 
               <div class="form-group">
                 <label">Alamat</label>
-                <input type="text" name="alamat" class="form-control" required>
+                <input type="text" name="alamat" class="form-control" value="<?php echo $editdata['alamat'] ?>" required>
               </div>
 
               <div class="form-group">
                 <label">Status</label>
-                <input type="text" name="statusnya" class="form-control" required>
+                <input type="text" name="statusnya" class="form-control" value="<?php echo $editdata['statusnya'] ?>" required>
               </div>
 
               <button type="submit" name="tambah" class="btn btn-primary mt-3">Simpan</button>
